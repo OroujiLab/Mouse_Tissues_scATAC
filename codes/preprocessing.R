@@ -16,23 +16,19 @@ library(Cairo)
 library(Matrix)
 
 # Set working directory and load data
-setwd("/cluster/projects/epigenomics/Aminnn/scATAC/Results")
-seRNA <- readRDS("/cluster/projects/epigenomics/Aminnn/scATAC/new/seRNA_Seurat.rds")
-
-# Check data
-head(colnames(seRNA))
+setwd("~/Mouse_Tissues_scATAC")
 
 # Define input files
 inputFiles <- c(
-  'Heart' = "fragments_heart.tsv.gz", 
-  'Kidney' = "fragments_kidney.tsv.gz",
-  'Brain' = "fragments_brain.tsv.gz", 
-  'Liver' = "fragments_liver.tsv.gz", 
-  'Lung' = "fragments_lung.tsv.gz", 
-  'Spleen' = "fragments_spleen.tsv.gz",
-  'Colon' = "fragments_colon.tsv.gz",
-  'Small_Intestine' = "fragments_small_intestine.tsv.gz",
-  'Pancreas' = "fragments_pancreas.tsv.gz"
+  'Heart' = "./inputs/fragments_heart.tsv.gz", 
+  'Kidney' = "./inputs/fragments_kidney.tsv.gz",
+  'Brain' = "./inputs/fragments_brain.tsv.gz", 
+  'Liver' = "./inputs/fragments_liver.tsv.gz", 
+  'Lung' = "./inputs/fragments_lung.tsv.gz", 
+  'Spleen' = "./inputs/fragments_spleen.tsv.gz",
+  'Colon' = "./inputs/fragments_colon.tsv.gz",
+  'Small_Intestine' = "./inputs/fragments_small_intestine.tsv.gz",
+  'Pancreas' = "./inputs/fragments_pancreas.tsv.gz"
 )
 print(inputFiles)
 
@@ -75,7 +71,7 @@ print(doubScores)
 # Create ArchR project
 Mouse <- ArchRProject(
   ArrowFiles = ArrowFiles,
-  outputDirectory = "/cluster/projects/epigenomics/Aminnn/scATAC/ArchR/Final/Results_Final",
+  outputDirectory = "./outputs/Archr_processed",
   copyArrows = TRUE 
 )
 print(Mouse)
