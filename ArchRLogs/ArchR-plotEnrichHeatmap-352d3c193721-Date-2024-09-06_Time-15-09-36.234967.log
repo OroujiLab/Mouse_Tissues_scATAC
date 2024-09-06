@@ -1,0 +1,637 @@
+
+           ___      .______        ______  __    __  .______      
+          /   \     |   _  \      /      ||  |  |  | |   _  \     
+         /  ^  \    |  |_)  |    |  ,----'|  |__|  | |  |_)  |    
+        /  /_\  \   |      /     |  |     |   __   | |      /     
+       /  _____  \  |  |\  \\___ |  `----.|  |  |  | |  |\  \\___.
+      /__/     \__\ | _| `._____| \______||__|  |__| | _| `._____|
+    
+Logging With ArchR!
+
+Start Time : 2024-09-06 15:09:36.236887
+
+------- ArchR Info
+
+ArchRThreads = 6
+
+------- System Info
+
+Computer OS = unix
+Total Cores = 12
+
+------- Session Info
+
+R version 4.4.0 (2024-04-24)
+Platform: x86_64-apple-darwin20
+Running under: macOS Monterey 12.2
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+Random number generation:
+ RNG:     L'Ecuyer-CMRG 
+ Normal:  Inversion 
+ Sample:  Rejection 
+ 
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Toronto
+tzcode source: internal
+
+attached base packages:
+ [1] parallel  stats4    grid      stats     graphics  grDevices utils     datasets 
+ [9] methods   base     
+
+other attached packages:
+ [1] circlize_0.4.16                          
+ [2] Cairo_1.6-2                              
+ [3] sctransform_0.4.1                        
+ [4] Signac_1.13.0                            
+ [5] scran_1.32.0                             
+ [6] scuttle_1.14.0                           
+ [7] SingleCellExperiment_1.26.0              
+ [8] pheatmap_1.0.12                          
+ [9] BSgenome.Dmelanogaster.UCSC.dm6_1.4.1    
+[10] BSgenome_1.72.0                          
+[11] BiocIO_1.14.0                            
+[12] Biostrings_2.72.1                        
+[13] XVector_0.44.0                           
+[14] TxDb.Mmusculus.UCSC.mm10.ensGene_3.4.0   
+[15] Seurat_5.1.0                             
+[16] SeuratObject_5.0.2                       
+[17] sp_2.1-4                                 
+[18] pvclust_2.2-0                            
+[19] proxy_0.4-27                             
+[20] vegan_2.6-6.1                            
+[21] lattice_0.22-6                           
+[22] permute_0.9-7                            
+[23] rtracklayer_1.64.0                       
+[24] rhdf5_2.48.0                             
+[25] SummarizedExperiment_1.34.0              
+[26] MatrixGenerics_1.16.0                    
+[27] Rcpp_1.0.13                              
+[28] Matrix_1.7-0                             
+[29] matrixStats_1.3.0                        
+[30] data.table_1.15.4                        
+[31] plyr_1.8.9                               
+[32] magrittr_2.0.3                           
+[33] gtable_0.3.5                             
+[34] gtools_3.9.5                             
+[35] ArchR_1.0.2                              
+[36] Mus.musculus_1.3.1                       
+[37] GO.db_3.19.1                             
+[38] OrganismDbi_1.46.0                       
+[39] Gviz_1.48.0                              
+[40] enrichplot_1.24.0                        
+[41] org.Mm.eg.db_3.19.1                      
+[42] clusterProfiler_4.12.0                   
+[43] TxDb.Mmusculus.UCSC.mm10.knownGene_3.10.0
+[44] GenomicFeatures_1.56.0                   
+[45] AnnotationDbi_1.66.0                     
+[46] Biobase_2.64.0                           
+[47] ChIPseeker_1.40.0                        
+[48] ChIPpeakAnno_3.38.0                      
+[49] GenomicRanges_1.56.1                     
+[50] GenomeInfoDb_1.40.1                      
+[51] IRanges_2.38.0                           
+[52] S4Vectors_0.42.0                         
+[53] cowplot_1.1.3                            
+[54] reshape_0.8.9                            
+[55] ggtree_3.12.0                            
+[56] ComplexHeatmap_2.20.0                    
+[57] simplifyEnrichment_1.14.0                
+[58] BiocGenerics_0.50.0                      
+[59] lubridate_1.9.3                          
+[60] forcats_1.0.0                            
+[61] stringr_1.5.1                            
+[62] tibble_3.2.1                             
+[63] tidyverse_2.0.0                          
+[64] networkD3_0.4                            
+[65] readr_2.1.5                              
+[66] tidyr_1.3.1                              
+[67] ggalluvial_0.12.5                        
+[68] reshape2_1.4.4                           
+[69] gridExtra_2.3                            
+[70] purrr_1.0.2                              
+[71] viridis_0.6.5                            
+[72] viridisLite_0.4.2                        
+[73] dplyr_1.1.4                              
+[74] ggplot2_3.5.1                            
+[75] shiny_1.8.1.1                            
+
+loaded via a namespace (and not attached):
+  [1] igraph_2.0.3                           
+  [2] graph_1.82.0                           
+  [3] ica_1.0-3                              
+  [4] plotly_4.10.4                          
+  [5] Formula_1.2-5                          
+  [6] zlibbioc_1.50.0                        
+  [7] tidyselect_1.2.1                       
+  [8] bit_4.0.5                              
+  [9] doParallel_1.0.17                      
+ [10] clue_0.3-65                            
+ [11] tm_0.7-13                              
+ [12] rjson_0.2.21                           
+ [13] blob_1.2.4                             
+ [14] S4Arrays_1.4.1                         
+ [15] dichromat_2.0-0.1                      
+ [16] png_0.1-8                              
+ [17] plotrix_3.8-4                          
+ [18] cli_3.6.3                              
+ [19] ggplotify_0.1.2                        
+ [20] ProtGenerics_1.36.0                    
+ [21] sourcetools_0.1.7-1                    
+ [22] askpass_1.2.0                          
+ [23] multtest_2.60.0                        
+ [24] openssl_2.2.0                          
+ [25] goftest_1.2-3                          
+ [26] universalmotif_1.22.0                  
+ [27] textshaping_0.4.0                      
+ [28] bluster_1.14.0                         
+ [29] BiocNeighbors_1.22.0                   
+ [30] uwot_0.2.2                             
+ [31] shadowtext_0.1.4                       
+ [32] curl_5.2.1                             
+ [33] mime_0.12                              
+ [34] evaluate_0.24.0                        
+ [35] tidytree_0.4.6                         
+ [36] leiden_0.4.3.1                         
+ [37] stringi_1.8.4                          
+ [38] backports_1.5.0                        
+ [39] XML_3.99-0.17                          
+ [40] httpuv_1.6.15                          
+ [41] umap_0.2.10.0                          
+ [42] rappdirs_0.3.3                         
+ [43] splines_4.4.0                          
+ [44] RcppRoll_0.3.1                         
+ [45] jpeg_0.1-10                            
+ [46] ggraph_2.2.1                           
+ [47] org.Hs.eg.db_3.19.1                    
+ [48] TooManyCellsR_0.1.1.0                  
+ [49] DBI_1.2.3                              
+ [50] jquerylib_0.1.4                        
+ [51] withr_3.0.0                            
+ [52] systemfonts_1.1.0                      
+ [53] lmtest_0.9-40                          
+ [54] RBGL_1.80.0                            
+ [55] tidygraph_1.3.1                        
+ [56] formatR_1.14                           
+ [57] BiocManager_1.30.23                    
+ [58] htmlwidgets_1.6.4                      
+ [59] fs_1.6.4                               
+ [60] biomaRt_2.60.0                         
+ [61] ggrepel_0.9.5                          
+ [62] labeling_0.4.3                         
+ [63] SparseArray_1.4.8                      
+ [64] reticulate_1.38.0                      
+ [65] VariantAnnotation_1.50.0               
+ [66] zoo_1.8-12                             
+ [67] knitr_1.48                             
+ [68] UCSC.utils_1.0.0                       
+ [69] timechange_0.3.0                       
+ [70] foreach_1.5.2                          
+ [71] fansi_1.0.6                            
+ [72] patchwork_1.2.0                        
+ [73] caTools_1.18.2                         
+ [74] pwalign_1.0.0                          
+ [75] RSpectra_0.16-2                        
+ [76] irlba_2.3.5.1                          
+ [77] regioneR_1.36.0                        
+ [78] fastDummies_1.7.3                      
+ [79] gridGraphics_0.5-1                     
+ [80] lazyeval_0.2.2                         
+ [81] yaml_2.3.9                             
+ [82] survival_3.7-0                         
+ [83] scattermore_1.2                        
+ [84] crayon_1.5.3                           
+ [85] RcppAnnoy_0.0.22                       
+ [86] RColorBrewer_1.1-3                     
+ [87] progressr_0.14.0                       
+ [88] tweenr_2.0.3                           
+ [89] later_1.3.2                            
+ [90] ggridges_0.5.6                         
+ [91] codetools_0.2-20                       
+ [92] base64enc_0.1-3                        
+ [93] GlobalOptions_0.1.2                    
+ [94] KEGGREST_1.44.0                        
+ [95] Rtsne_0.17                             
+ [96] shape_1.4.6.1                          
+ [97] limma_3.60.3                           
+ [98] Rsamtools_2.20.0                       
+ [99] filelock_1.0.3                         
+[100] foreign_0.8-87                         
+[101] pkgconfig_2.0.3                        
+[102] xml2_1.3.6                             
+[103] spatstat.univar_3.0-0                  
+[104] GenomicAlignments_1.40.0               
+[105] aplot_0.2.3                            
+[106] spatstat.sparse_3.1-0                  
+[107] ape_5.8                                
+[108] biovizBase_1.52.0                      
+[109] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2
+[110] xtable_1.8-4                           
+[111] interp_1.1-6                           
+[112] httr_1.4.7                             
+[113] tools_4.4.0                            
+[114] globals_0.16.3                         
+[115] htmlTable_2.4.3                        
+[116] checkmate_2.3.1                        
+[117] nlme_3.1-165                           
+[118] futile.logger_1.4.3                    
+[119] lambda.r_1.2.4                         
+[120] HDO.db_0.99.1                          
+[121] dbplyr_2.5.0                           
+[122] digest_0.6.36                          
+[123] farver_2.1.2                           
+[124] tzdb_0.4.0                             
+[125] AnnotationFilter_1.28.0                
+[126] yulab.utils_0.1.4                      
+[127] rpart_4.1.23                           
+[128] glue_1.7.0                             
+[129] cachem_1.1.0                           
+[130] VennDiagram_1.7.3                      
+[131] BiocFileCache_2.12.0                   
+[132] polyclip_1.10-7                        
+[133] Hmisc_5.1-3                            
+[134] generics_0.1.3                         
+[135] proxyC_0.4.1                           
+[136] parallelly_1.37.1                      
+[137] txdbmaker_1.0.0                        
+[138] statmod_1.5.0                          
+[139] RcppHNSW_0.6.0                         
+[140] ragg_1.3.2                             
+[141] ScaledMatrix_1.12.0                    
+[142] pbapply_1.7-2                          
+[143] httr2_1.0.2                            
+[144] spam_2.10-0                            
+[145] vroom_1.6.5                            
+[146] gson_0.1.0                             
+[147] dqrng_0.4.1                            
+[148] utf8_1.2.4                             
+[149] graphlayouts_1.1.1                     
+[150] fontawesome_0.5.2                      
+[151] GenomeInfoDbData_1.2.12                
+[152] rhdf5filters_1.16.0                    
+[153] RCurl_1.98-1.16                        
+[154] memoise_2.0.1                          
+[155] rmarkdown_2.27                         
+[156] chromoMap_4.1.1                        
+[157] scales_1.3.0                           
+[158] future_1.33.2                          
+[159] RANN_2.6.1                             
+[160] spatstat.data_3.1-2                    
+[161] rstudioapi_0.16.0                      
+[162] cluster_2.1.6                          
+[163] spatstat.utils_3.0-5                   
+[164] hms_1.1.3                              
+[165] fitdistrplus_1.2-1                     
+[166] munsell_0.5.1                          
+[167] colorspace_2.1-0                       
+[168] rlang_1.1.4                            
+[169] sparseMatrixStats_1.16.0               
+[170] DelayedMatrixStats_1.26.0              
+[171] dotCall64_1.1-1                        
+[172] ggforce_0.4.2                          
+[173] mgcv_1.9-1                             
+[174] xfun_0.46                              
+[175] iterators_1.0.14                       
+[176] abind_1.4-5                            
+[177] GOSemSim_2.30.0                        
+[178] treeio_1.28.0                          
+[179] Rhdf5lib_1.26.0                        
+[180] futile.options_1.0.1                   
+[181] bitops_1.0-7                           
+[182] promises_1.3.0                         
+[183] InteractionSet_1.32.0                  
+[184] scatterpie_0.2.3                       
+[185] RSQLite_2.3.7                          
+[186] qvalue_2.36.0                          
+[187] fgsea_1.30.0                           
+[188] DelayedArray_0.30.1                    
+[189] compiler_4.4.0                         
+[190] prettyunits_1.2.0                      
+[191] beachmat_2.20.0                        
+[192] boot_1.3-30                            
+[193] listenv_0.9.1                          
+[194] edgeR_4.2.0                            
+[195] BiocSingular_1.20.0                    
+[196] tensor_1.5                             
+[197] MASS_7.3-61                            
+[198] progress_1.2.3                         
+[199] BiocParallel_1.38.0                    
+[200] spatstat.random_3.3-1                  
+[201] R6_2.5.1                               
+[202] fastmap_1.2.0                          
+[203] fastmatch_1.1-4                        
+[204] ensembldb_2.28.0                       
+[205] ROCR_1.0-11                            
+[206] rsvd_1.0.5                             
+[207] nnet_7.3-19                            
+[208] KernSmooth_2.23-24                     
+[209] latticeExtra_0.6-30                    
+[210] miniUI_0.1.1.1                         
+[211] deldir_2.0-4                           
+[212] htmltools_0.5.8.1                      
+[213] bit64_4.0.5                            
+[214] spatstat.explore_3.3-1                 
+[215] lifecycle_1.0.4                        
+[216] NLP_0.2-1                              
+[217] restfulr_0.0.15                        
+[218] sass_0.4.9                             
+[219] vctrs_0.6.5                            
+[220] rsconnect_1.3.1                        
+[221] slam_0.1-51                            
+[222] spatstat.geom_3.3-2                    
+[223] DOSE_3.30.1                            
+[224] ggfun_0.1.5                            
+[225] future.apply_1.11.2                    
+[226] bslib_0.7.0                            
+[227] pillar_1.9.0                           
+[228] magick_2.8.4                           
+[229] gplots_3.1.3.1                         
+[230] metapod_1.12.0                         
+[231] locfit_1.5-9.10                        
+[232] jsonlite_1.8.8                         
+[233] GetoptLong_1.0.5                       
+
+
+------- Log Info
+
+
+2024-09-06 15:09:36.500735 : plotEnrichHeatmap Input-Parameters, Class = list
+
+plotEnrichHeatmap Input-Parameters$seEnrich: length = 884
+class: SummarizedExperiment 
+dim: 6 29 
+metadata(0):
+assays(10): mlog10Padj mlog10p ... CompareFrequency feature
+rownames(6): Tcfap2a_1 Tcfap2b_2 ... Tcfap2d_5 Arid3b_6
+rowData names(0):
+colnames(29): Alveolar Macrophages Astrocytes ... Sinusoidal Endothelial
+  Cells of Liver T Cells
+colData names(0):
+
+
+plotEnrichHeatmap Input-Parameters$pal: length = 100
+[1] "#E6E7E8" "#E0E4E8" "#DBE2E9" "#D6DFEA" "#D1DDEA" "#CBDAEB"
+
+
+plotEnrichHeatmap Input-Parameters$n: length = 1
+[1] 20
+
+
+plotEnrichHeatmap Input-Parameters$cutOff: length = 1
+[1] 20
+
+
+plotEnrichHeatmap Input-Parameters$pMax: length = 1
+[1] Inf
+
+
+plotEnrichHeatmap Input-Parameters$clusterCols: length = 1
+[1] TRUE
+
+
+plotEnrichHeatmap Input-Parameters$binaryClusterRows: length = 1
+[1] TRUE
+
+
+plotEnrichHeatmap Input-Parameters$labelRows: length = 1
+[1] TRUE
+
+
+plotEnrichHeatmap Input-Parameters$rastr: length = 1
+[1] TRUE
+
+
+plotEnrichHeatmap Input-Parameters$transpose: length = 1
+[1] TRUE
+
+
+plotEnrichHeatmap Input-Parameters$returnMatrix: length = 1
+[1] TRUE
+
+
+plotEnrichHeatmap Input-Parameters$logFile: length = 1
+[1] "ArchRLogs/ArchR-plotEnrichHeatmap-352d3c193721-Date-2024-09-06_Time-15-09-36.234967.log"
+
+
+
+2024-09-06 15:09:36.698746 : mat-mlog10Padj, Class = data.frame
+mat-mlog10Padj: nRows = 884, nCols = 29
+          Alveolar Macrophages Astrocytes B Cells Cardiomyocytes Clara Cells
+Tcfap2a_1                    0         27      29             20           6
+Tcfap2b_2                    0         15      12             15           5
+Tcfap2c_3                    0         51      73             24          13
+Tcfap2e_4                    0          5       5              7           4
+Tcfap2d_5                    0        108     248             18          16
+Arid3b_6                     0          0       0              0           0
+          Collecting Duct Cells Dendritic Cells Distal Convoluted Tubule Cells
+Tcfap2a_1                    25              29                             95
+Tcfap2b_2                    26               6                             50
+Tcfap2c_3                    32              59                            111
+Tcfap2e_4                    20               3                             52
+Tcfap2d_5                     5             198                             77
+Arid3b_6                      7               0                              0
+          Endothelial Cells Enterocytes Enteroendocrine Cells Fibroblasts
+Tcfap2a_1                12          19                  0.90          23
+Tcfap2b_2                10           8                  0.00          22
+Tcfap2c_3                13          10                  2.60          39
+Tcfap2e_4                 7          10                  0.08          10
+Tcfap2d_5                23           5                  0.06          38
+Arid3b_6                  0           0                  0.00           0
+          Goblet Cells Hepatocytes Macrophages Mesothelial Cells Microglial Cells
+Tcfap2a_1            6          15           0                16                6
+Tcfap2b_2            3          10           0                 7                5
+Tcfap2c_3            5          28           0                26                9
+Tcfap2e_4            5           4           0                 9                4
+Tcfap2d_5            6          57           0                48               11
+Arid3b_6             0           0           0                 0                0
+          NA Neurons Oligodendrocyte Oligodendrocyte Precursor Cells
+Tcfap2a_1  0       2              36                              12
+Tcfap2b_2  0       0               4                               0
+Tcfap2c_3  0       8              62                              30
+Tcfap2e_4  0       0               3                               0
+Tcfap2d_5  0      51             142                              98
+Arid3b_6   0       0               0                               0
+          Pancreatic Acinar Cells Pancreatic Beta Cells Paneth Cells
+Tcfap2a_1                      22                   0.4           28
+Tcfap2b_2                       7                   0.0           14
+Tcfap2c_3                      39                   2.4           44
+Tcfap2e_4                       5                   0.0            9
+Tcfap2d_5                      93                   9.7           64
+Arid3b_6                        0                   4.6            0
+          Proximal Tubule Cells Pulmonary Alveolar Type I
+Tcfap2a_1                   9.6                         2
+Tcfap2b_2                  12.5                         4
+Tcfap2c_3                   9.9                         2
+Tcfap2e_4                   8.8                         4
+Tcfap2d_5                   0.8                         0
+Arid3b_6                    3.5                         0
+          Pulmonary alveolar type II Sinusoidal Endothelial Cells of Liver T Cells
+Tcfap2a_1                          5                                     3      27
+Tcfap2b_2                          7                                     2       2
+Tcfap2c_3                          9                                     8      41
+Tcfap2e_4                          5                                     3       3
+Tcfap2d_5                         16                                     5     139
+Arid3b_6                           0                                     0       0
+
+
+
+2024-09-06 15:09:36.714013 : mat-mlog10Padj-Filter, Class = data.frame
+mat-mlog10Padj-Filter: nRows = 180, nCols = 29
+           Alveolar Macrophages Astrocytes B Cells Cardiomyocytes Clara Cells
+Sfpi1_265                  1353          0     705              0           0
+Spic_269                    672          0     426              0           0
+Elf1_285                    562          0     545              0           0
+Elf5_281                    486          0     276              0           0
+Ehf_275                     464          0     347              0           0
+Gm4881_293                  389          0     598              0           0
+           Collecting Duct Cells Dendritic Cells Distal Convoluted Tubule Cells
+Sfpi1_265                      0             377                              0
+Spic_269                       0             303                              0
+Elf1_285                       0             611                              0
+Elf5_281                       0             212                              0
+Ehf_275                        0             267                              0
+Gm4881_293                     0             879                              0
+           Endothelial Cells Enterocytes Enteroendocrine Cells Fibroblasts
+Sfpi1_265                  8           0                     0           0
+Spic_269                  47           0                     0           0
+Elf1_285                  91          38                     0           0
+Elf5_281                  31          77                     0           0
+Ehf_275                   29          58                     0           0
+Gm4881_293               234           3                     0          10
+           Goblet Cells Hepatocytes Macrophages Mesothelial Cells Microglial Cells
+Sfpi1_265             0           0        3011                 0              552
+Spic_269              0           0        1609                 0              351
+Elf1_285             30           0        1393                 0              323
+Elf5_281             50           0         959                 0              190
+Ehf_275              39           0         968                 0              191
+Gm4881_293            7           0        1105                 0              305
+           NA Neurons Oligodendrocyte Oligodendrocyte Precursor Cells
+Sfpi1_265   0       0               0                               0
+Spic_269    0       0               0                               0
+Elf1_285    0       0               0                               0
+Elf5_281    0       0               0                               0
+Ehf_275     0       0               0                               0
+Gm4881_293  0       0               0                               0
+           Pancreatic Acinar Cells Pancreatic Beta Cells Paneth Cells
+Sfpi1_265                        0                     0            0
+Spic_269                         0                     0            0
+Elf1_285                         0                     0            9
+Elf5_281                         0                     0           12
+Ehf_275                          0                     0           11
+Gm4881_293                       0                     0            5
+           Proximal Tubule Cells Pulmonary Alveolar Type I
+Sfpi1_265                      0                         0
+Spic_269                       0                         0
+Elf1_285                       0                         0
+Elf5_281                       0                         0
+Ehf_275                        0                         0
+Gm4881_293                     0                         0
+           Pulmonary alveolar type II Sinusoidal Endothelial Cells of Liver T Cells
+Sfpi1_265                           0                                    11      27
+Spic_269                            0                                    18      74
+Elf1_285                            0                                    41     499
+Elf5_281                            0                                    27     116
+Ehf_275                             0                                    19     151
+Gm4881_293                          0                                    95     992
+
+
+
+2024-09-06 15:09:36.948557 : passMat, Class = data.frame
+passMat: nRows = 180, nCols = 29
+           Alveolar Macrophages Astrocytes B Cells Cardiomyocytes Clara Cells
+Sfpi1_265                     0          0       0              0           0
+Spic_269                      0          0       0              0           0
+Elf1_285                      0          0       0              0           0
+Elf5_281                      0          0       0              0           0
+Ehf_275                       0          0       0              0           0
+Gm4881_293                    0          0       0              0           0
+           Collecting Duct Cells Dendritic Cells Distal Convoluted Tubule Cells
+Sfpi1_265                      0               0                              0
+Spic_269                       0               0                              0
+Elf1_285                       0               0                              0
+Elf5_281                       0               0                              0
+Ehf_275                        0               0                              0
+Gm4881_293                     0               0                              0
+           Endothelial Cells Enterocytes Enteroendocrine Cells Fibroblasts
+Sfpi1_265                  0           0                     0           0
+Spic_269                   0           0                     0           0
+Elf1_285                   0           0                     0           0
+Elf5_281                   0           0                     0           0
+Ehf_275                    0           0                     0           0
+Gm4881_293                 0           0                     0           0
+           Goblet Cells Hepatocytes Macrophages Mesothelial Cells Microglial Cells
+Sfpi1_265             0           0           1                 0                0
+Spic_269              0           0           1                 0                0
+Elf1_285              0           0           1                 0                0
+Elf5_281              0           0           1                 0                0
+Ehf_275               0           0           1                 0                0
+Gm4881_293            0           0           1                 0                0
+           NA Neurons Oligodendrocyte Oligodendrocyte Precursor Cells
+Sfpi1_265   0       0               0                               0
+Spic_269    0       0               0                               0
+Elf1_285    0       0               0                               0
+Elf5_281    0       0               0                               0
+Ehf_275     0       0               0                               0
+Gm4881_293  0       0               0                               0
+           Pancreatic Acinar Cells Pancreatic Beta Cells Paneth Cells
+Sfpi1_265                        0                     0            0
+Spic_269                         0                     0            0
+Elf1_285                         0                     0            0
+Elf5_281                         0                     0            0
+Ehf_275                          0                     0            0
+Gm4881_293                       0                     0            0
+           Proximal Tubule Cells Pulmonary Alveolar Type I
+Sfpi1_265                      0                         0
+Spic_269                       0                         0
+Elf1_285                       0                         0
+Elf5_281                       0                         0
+Ehf_275                        0                         0
+Gm4881_293                     0                         0
+           Pulmonary alveolar type II Sinusoidal Endothelial Cells of Liver T Cells
+Sfpi1_265                           0                                     0       0
+Spic_269                            0                                     0       0
+Elf1_285                            0                                     0       0
+Elf5_281                            0                                     0       0
+Ehf_275                             0                                     0       0
+Gm4881_293                          0                                     0       0
+
+
+
+2024-09-06 15:09:36.958441 : mat-mlog10Padj-RowScale, Class = list
+
+mat-mlog10Padj-RowScale$mat: nRows = 180, nCols = 29
+                 Alveolar Macrophages Astrocytes B Cells Cardiomyocytes Clara Cells
+Sfpi1_265 (3011)                  0.4          0     0.2              0           0
+Spic_269 (1609)                   0.4          0     0.3              0           0
+Elf1_285 (1393)                   0.4          0     0.4              0           0
+Elf5_281 (959)                    0.5          0     0.3              0           0
+Ehf_275 (968)                     0.5          0     0.4              0           0
+
+
+mat-mlog10Padj-RowScale$min: length = 1
+[1] 0
+
+
+mat-mlog10Padj-RowScale$max: length = 180
+ Sfpi1_265   Spic_269   Elf1_285   Elf5_281    Ehf_275 Gm4881_293 
+      3011       1609       1393        959        968       1105 
+
+
+
+2024-09-06 15:09:36.965164 : mat-mlog10Padj-RowScale-Plot, Class = matrix
+ 
+2024-09-06 15:09:36.965164 : mat-mlog10Padj-RowScale-Plot, Class = array
+                 Alveolar Macrophages Astrocytes B Cells Cardiomyocytes Clara Cells
+Gabpa_273 (455)                    25          0      67              0           0
+Gm4881_292 (455)                   25          0      67              0           0
+Ets2_828 (455)                     25          0      67              0           0
+Fev_291 (397)                      24          0      68              0           0
+Runx1_712 (351)                    46          0      11              0           4
+
+mat-mlog10Padj-RowScale-Plot: nRows = 180, nCols = 29
+
