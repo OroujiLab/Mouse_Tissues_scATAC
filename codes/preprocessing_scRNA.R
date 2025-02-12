@@ -1,101 +1,113 @@
-# Download datasets
-# Please copy the codes below to your terminal to download each of the datasets:
-# Colon
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Colon.rds'
-# Kidney
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Kidney.rds'
-# Liver
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Liver.rds'
-# Heart
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Heart.rds'
-# Brain
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_BrainMicroglia.rds'
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_BrainNeurons.rds'
-# Spleen
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Spleen.rds'
-# Lung
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Lung.rds'
-# Pancreas
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/TMFACS_Pancreas.rds'
-# Small_Intestine
-# wget 'https://scfind.cog.sanger.ac.uk/reddim_sce/MouseCellAtlas/MCA_SmallIntestine.rds'
+#!/bin/bash
 
-# Defining each scRNA dataset
-seRNA_heart <- readRDS("./outputs/TMFACS_Heart.rds")
-seRNA_kidney <- readRDS("./outputs/TMFACS_Kidney.rds")
-seRNA_spleen <- readRDS("./outputs/TMFACS_Spleen.rds")
-seRNA_liver <- readRDS("./outputs/TMFACS_Liver.rds")
-seRNA_lung <- readRDS("./outputs/TMFACS_Lung.rds")
-seRNA_pancreas <- readRDS("./outputs/TMFACS_Spleen.rds")
-seRNA_brain1 <- readRDS("./outputs/TMFACS_TMFACS_BrainMicroglia.rds")
-seRNA_brain2 <- readRDS("./outputs/TMFACS_BrainNeurons.rds")
-seRNA_colon <- readRDS("./outputs/TMFACS_Colon.rds")
-seRNA_small_intestine <- readRDS("./outputs/MCA_SmallIntestine.rds'")
 
-# Combine TMFACS files
-TMFACS_Combined <- cbind(seRNA_heart, 
-                         seRNA_kidney, 
-                         seRNA_spleen, 
-                         seRNA_liver, 
-                         seRNA_lung, 
-                         seRNA_pancreas, 
-                         seRNA_brain1, 
-                         seRNA_brain2, 
-                         seRNA_colon, 
-                         seRNA_small_intestine)
-                         
-# Load required libraries
-library(Seurat)
-library(SingleCellExperiment)
-library(purrr)
+#mkdir -p data outputs logs
 
-# Define file paths
-file_paths <- c(
- heart = "~/TMFACS_Heart.rds",
- kidney = "~/TMFACS_Kidney.rds",
- spleen = "~/TMFACS_Spleen.rds",
- liver = "~/TMFACS_Liver.rds",
- lung = "~/TMFACS_Lung.rds",
- pancreas = "~/TMFACS_Pancreas.rds",
- brain_microglia = "~/TMFACS_BrainMicroglia.rds",
- brain_neurons = "~/TMFACS_BrainNeurons.rds",
- colon = "~/TMFACS_Colon.rds",
- small_intestine = "~/MCA_SmallIntestine.rds"
+
+
+datasets=(
+    "TMFACS_Colon.rds"
+    "TMFACS_Kidney.rds"
+    "TMFACS_Liver.rds"
+    "TMFACS_Heart.rds"
+    "TMFACS_BrainMicroglia.rds"
+    "TMFACS_BrainNeurons.rds"
+    "TMFACS_Spleen.rds"
+    "TMFACS_Lung.rds"
+    "TMFACS_Pancreas.rds"
+    "MCA_SmallIntestine.rds"
 )
 
-# Function to read and preprocess RDS files
+for dataset in "${datasets[@]}"; do
+    if [ ! -f "data/$dataset" ]; then
+        echo "Downloading $dataset"
+        wget -P data "https://scfind.cog.sanger.ac.uk/reddim_sce/TabulaMurisFACS/$dataset" 2>>logs/download_errors.log
+    else
+        echo "$dataset already exists."
+    fi
+done
+
+if [ ! -f "data/MCA_SmallIntestine.rds" ]; then
+    wget -P data "https://scfind.cog.sanger.ac.uk/reddim_sce/MouseCellAtlas/MCA_SmallIntestine.rds" 2>>logs/download_errors.log
+fi
+
+
+Rscript - <<'EOF'
+
+
+suppressPackageStartupMessages({
+    library(Seurat)
+    library(SingleCellExperiment)
+    library(purrr)
+})
+
+
+file_paths <- c(
+    heart = "data/TMFACS_Heart.rds",
+    kidney = "data/TMFACS_Kidney.rds",
+    spleen = "data/TMFACS_Spleen.rds",
+    liver = "data/TMFACS_Liver.rds",
+    lung = "data/TMFACS_Lung.rds",
+    pancreas = "data/TMFACS_Pancreas.rds",
+    brain_microglia = "data/TMFACS_BrainMicroglia.rds",
+    brain_neurons = "data/TMFACS_BrainNeurons.rds",
+    colon = "data/TMFACS_Colon.rds",
+    small_intestine = "data/MCA_SmallIntestine.rds"
+)
+
+
 read_and_preprocess <- function(file_path) {
- sce <- readRDS(file_path)
- 
- cols_to_remove <- c("mouse", "well", "subtissue", "FACS", "sex", 
-                     "ClusterID", "Batch", "Mouse.Sex.Age", "file", "cell_type1", "Cell.Barcode")
- sce <- sce[, !colnames(colData(sce)) %in% cols_to_remove]
- 
- # Rename columns
- colnames(colData(sce)) <- c("Tissue", "Cell_type")
- 
- return(sce)
+    tryCatch({
+        message(sprintf("Processing %s", file_path))
+        sce <- readRDS(file_path)
+        
+        
+        cols_to_remove <- c("mouse", "well", "subtissue", "FACS", "sex", 
+                           "ClusterID", "Batch", "Mouse.Sex.Age", "file", 
+                           "cell_type1", "Cell.Barcode")
+        
+        
+        existing_cols <- intersect(colnames(colData(sce)), cols_to_remove)
+        if (length(existing_cols) > 0) {
+            sce <- sce[, !colnames(colData(sce)) %in% existing_cols]
+        }
+        
+        
+        colnames(colData(sce)) <- c("Tissue", "Cell_type")
+        
+        return(sce)
+    }, error = function(e) {
+        message(sprintf("Error processing %s: %s", file_path, e$message))
+        return(NULL)
+    })
 }
 
-# Read and preprocess all files
 sce_list <- map(file_paths, read_and_preprocess)
+sce_list <- Filter(Negate(is.null), sce_list)
 
-# Combine all SingleCellExperiment objects
+message("Combining SingleCellExperiment objects...")
 combined_sce <- do.call(cbind, sce_list)
 
-# Convert to Seurat object
+
+message("Converting to Seurat object")
 scRNA <- as.Seurat(
- combined_sce,
- counts = "counts",
- data = "logcounts",
- assay = NULL,
- project = "SingleCellExperiment"
+    combined_sce,
+    counts = "counts",
+    data = "logcounts",
+    assay = NULL,
+    project = "SingleCellExperiment"
 )
 
-# Rename assay
+# Rename Assay
 scRNA <- RenameAssays(scRNA, originalexp = 'RNA')
 
 # Remove rows with NA values
+message("Removing NA values...")
 na_rows <- rowSums(is.na(scRNA[["RNA"]]@counts)) > 0
 scRNA <- subset(scRNA, features = rownames(scRNA)[!na_rows])
-saveRDS(scRNA,"./outputs/scRNA_combined.rds")
+saveRDS(scRNA, "outputs/scRNA_combined.rds")
+
+
+EOF
+
+echo "Script execution completed!"

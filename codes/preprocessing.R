@@ -1,4 +1,3 @@
-# Load required libraries
 library(ArchR)
 library(Seurat)
 library(ggplot2)
@@ -15,10 +14,10 @@ library(dplyr)
 library(Cairo)
 library(Matrix)
 
-# Set working directory and load data
+
 setwd("~/Mouse_Tissues_scATAC")
 
-# Define input files
+
 inputFiles <- c(
   'Heart' = "./inputs/fragments_heart.tsv.gz", 
   'Kidney' = "./inputs/fragments_kidney.tsv.gz",
@@ -32,12 +31,12 @@ inputFiles <- c(
 )
 print(inputFiles)
 
-# Set up ArchR environment
+
 addArchRGenome("mm10")
 addArchRThreads(threads = 1)
 addArchRLogging(useLogs = TRUE)
 
-# Create gene annotation
+
 geneAnnotation <- createGeneAnnotation(TxDb = TxDb.Mmusculus.UCSC.mm10.ensGene, OrgDb = org.Mm.eg.db)
 geneAnnotation <- createGeneAnnotation(
   TSS = geneAnnotation$TSS,
@@ -45,7 +44,7 @@ geneAnnotation <- createGeneAnnotation(
   genes = geneAnnotation$genes
 )
 
-# Create Arrow files
+
 ArrowFiles <- createArrowFiles(
   inputFiles = inputFiles,
   sampleNames = names(inputFiles),
@@ -56,10 +55,10 @@ ArrowFiles <- createArrowFiles(
 )
 print(ArrowFiles)
 
-# Define Arrow files
+
 ArrowFiles <- c("Kidney.arrow", "Liver.arrow", "Lung.arrow", "Heart.arrow", "Brain.arrow", "Spleen.arrow", "Small_Intestine.arrow", "Colon.arrow", "Pancreas.arrow")
 
-# Add doublet scores
+
 doubScores <- addDoubletScores(
   input = ArrowFiles,
   k = 10,
@@ -68,7 +67,7 @@ doubScores <- addDoubletScores(
 )
 print(doubScores)
 
-# Create ArchR project
+
 Mouse <- ArchRProject(
   ArrowFiles = ArrowFiles,
   outputDirectory = "./outputs/Archr_processed",
